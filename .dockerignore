@@ -1,0 +1,12 @@
+bin/
+obj/
+.vs/
+.git/
+*.user
+*.suo
+*.cache
+packages/
+*.dll.config
+Web.Debug.config
+Web.Release.config
+
