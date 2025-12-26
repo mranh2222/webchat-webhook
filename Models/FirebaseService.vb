@@ -108,6 +108,10 @@ Public Class FirebaseService
     ' Kiểm tra kết nối Firebase
     Public Shared Async Function TestConnectionAsync() As Task(Of Boolean)
         Try
+            If String.IsNullOrEmpty(baseUrl) Then
+                Return False
+            End If
+            
             ' Test bằng cách đọc root hoặc webhooks path
             Dim testUrl As String = baseUrl.TrimEnd("/"c) & "/.json"
             If Not String.IsNullOrEmpty(authSecret) Then
@@ -118,7 +122,35 @@ Public Class FirebaseService
             ' Firebase trả về 200 ngay cả khi không có dữ liệu
             Return response.IsSuccessStatusCode
         Catch ex As Exception
+            ' Log lỗi chi tiết
+            System.Diagnostics.Debug.WriteLine("Firebase TestConnection Error: " & ex.Message)
             Return False
+        End Try
+    End Function
+    
+    ' Lấy thông tin lỗi chi tiết
+    Public Shared Async Function GetConnectionErrorAsync() As Task(Of String)
+        Try
+            If String.IsNullOrEmpty(baseUrl) Then
+                Return "FirebaseBaseUrl chưa được cấu hình trong Web.config"
+            End If
+            
+            Dim testUrl As String = baseUrl.TrimEnd("/"c) & "/.json"
+            If Not String.IsNullOrEmpty(authSecret) Then
+                testUrl &= "?auth=" & authSecret
+            End If
+            
+            Dim response As HttpResponseMessage = Await httpClient.GetAsync(testUrl)
+            
+            If Not response.IsSuccessStatusCode Then
+                Dim errorContent As String = Await response.Content.ReadAsStringAsync()
+                Return $"HTTP {CInt(response.StatusCode)}: {errorContent}"
+            End If
+            
+            ' Nếu response thành công nhưng vẫn gọi hàm này, có thể do lỗi khác
+            Return "Kết nối thành công nhưng có lỗi khi đọc dữ liệu"
+        Catch ex As Exception
+            Return $"Exception: {ex.Message} - {ex.GetType().Name}"
         End Try
     End Function
 

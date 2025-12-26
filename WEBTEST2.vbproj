@@ -183,6 +183,7 @@
     <Compile Include="Controllers\HomeController.vb" />
     <Compile Include="Controllers\FacebookController.vb" />
     <Compile Include="Controllers\WebhookController.vb" />
+    <Compile Include="Controllers\WebhookMvcController.vb" />
     <Compile Include="Models\FileStorageService.vb" />
     <Compile Include="Models\FirebaseService.vb" />
     <Compile Include="Models\WebhookEntry.vb" />
@@ -613,7 +614,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>59277</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44332/</IISUrl>
+          <IISUrl>http://localhost:59277/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:59277/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

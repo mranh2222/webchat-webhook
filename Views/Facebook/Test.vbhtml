@@ -8,6 +8,10 @@ End Code
         <div class="col-12">
             <h2>Facebook & Messenger Webhook Test</h2>
             <p class="text-muted">Theo dõi comments và messages theo thời gian thực</p>
+            <div class="mt-2">
+                <a href="@Url.Action("Manage", "Facebook")" class="btn btn-outline-primary btn-sm">Quản lý Subscriptions</a>
+                <a href="@Url.Action("WebhookInfo", "Facebook")" class="btn btn-outline-info btn-sm">Hướng dẫn cấu hình</a>
+            </div>
         </div>
     </div>
 

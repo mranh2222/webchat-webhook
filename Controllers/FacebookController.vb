@@ -17,5 +17,12 @@ Public Class FacebookController
         ViewData("VerifyToken") = ConfigurationManager.AppSettings("FacebookVerifyToken")
         Return View()
     End Function
+
+    ' GET: Facebook/Manage
+    Function Manage() As ActionResult
+        Response.Charset = "utf-8"
+        Response.ContentEncoding = Encoding.UTF8
+        Return View()
+    End Function
 End Class
 

@@ -13,7 +13,7 @@
             font-family: 'Segoe UI', 'Microsoft YaHei', 'Arial Unicode MS', sans-serif !important;
         }
     </style>
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/bundles/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>

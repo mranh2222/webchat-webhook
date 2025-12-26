@@ -1,0 +1,9 @@
+version: "2"
+authtoken: 37Hhudzki9zKTJXzuTiTgPnpHHo_67wu7mBJnhuBbpNLwxRYC
+tunnels:
+  webhook:
+    proto: http
+    addr: http://localhost:59277
+    inspect: true
+    host_header: localhost:59277
+

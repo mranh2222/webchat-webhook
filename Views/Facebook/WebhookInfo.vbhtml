@@ -114,6 +114,9 @@ End Code
                     <h5 class="mb-0">Cấu hình Facebook Webhook (Bước 2)</h5>
                 </div>
                 <div class="card-body">
+                    <div class="alert alert-success mb-3">
+                        <strong>Mới:</strong> Bạn có thể sử dụng trang <a href="@Url.Action("Manage", "Facebook")" class="alert-link">Quản lý Subscriptions</a> để subscribe/unsubscribe webhook tự động qua API!
+                    </div>
                     <ol>
                         <li class="mb-3">
                             <strong>Truy cập Facebook Developer Console</strong>
@@ -123,13 +126,22 @@ End Code
                             </ul>
                         </li>
                         <li class="mb-3">
-                            <strong>Cấu hình Webhook</strong>
+                            <strong>Cấu hình Webhook (Cách 1: Qua Facebook Developer Console)</strong>
                             <ul>
                                 <li>Vào mục "Webhooks" trong menu bên trái</li>
                                 <li>Click "Add Callback URL" hoặc "Edit Subscription"</li>
                                 <li>Nhập Webhook URL từ trên</li>
                                 <li>Nhập Verify Token từ trên</li>
                                 <li>Click "Verify and Save"</li>
+                            </ul>
+                        </li>
+                        <li class="mb-3">
+                            <strong>Cấu hình Webhook (Cách 2: Qua API - Khuyến nghị)</strong>
+                            <ul>
+                                <li>Vào trang <a href="@Url.Action("Manage", "Facebook")">Quản lý Subscriptions</a></li>
+                                <li>Nhập Page ID và Page Access Token</li>
+                                <li>Click "Subscribe Webhook" để tự động subscribe</li>
+                                <li>Click "Kiểm tra trạng thái" để xác nhận</li>
                             </ul>
                         </li>
                         <li class="mb-3">
@@ -140,6 +152,7 @@ End Code
                                         <li>Vào "Webhooks" > "Page" hoặc "Instagram"</li>
                                         <li>Subscribe vào "feed" hoặc "comments"</li>
                                         <li>Chọn các fields: <code>feed</code>, <code>comments</code></li>
+                                        <li><strong>Hoặc</strong> sử dụng trang <a href="@Url.Action("Manage", "Facebook")">Quản lý Subscriptions</a> để subscribe tự động</li>
                                     </ul>
                                 </li>
                                 <li><strong>Để nhận Messages từ Messenger:</strong>
@@ -148,6 +161,7 @@ End Code
                                         <li>Vào "Webhooks" section</li>
                                         <li>Subscribe vào "messages"</li>
                                         <li>Chọn các fields: <code>messages</code>, <code>messaging_postbacks</code></li>
+                                        <li><strong>Hoặc</strong> sử dụng trang <a href="@Url.Action("Manage", "Facebook")">Quản lý Subscriptions</a> để subscribe tự động</li>
                                     </ul>
                                 </li>
                             </ul>
@@ -182,15 +196,63 @@ End Code
 
             <div class="card mb-3">
                 <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0">Lưu ý quan trọng</h5>
+                    <h5 class="mb-0">💡 Test Local KHÔNG CẦN SERVER!</h5>
                 </div>
                 <div class="card-body">
-                    <ul>
-                        <li>Webhook URL phải có thể truy cập được từ internet (không phải localhost)</li>
-                        <li>Nếu test local, bạn cần dùng ngrok hoặc công cụ tương tự để expose localhost ra internet</li>
-                        <li>Verify Token phải khớp với token trong Web.config</li>
-                        <li>Đảm bảo ứng dụng Facebook của bạn đã được approved các permissions cần thiết</li>
-                    </ul>
+                    <div class="alert alert-info">
+                        <strong>Bạn KHÔNG cần deploy lên server để test!</strong>
+                        <p class="mb-0 mt-2">Dùng <strong>ngrok</strong> để expose localhost ra internet.</p>
+                    </div>
+                    <h6 class="mt-3">Hướng dẫn dùng ngrok:</h6>
+                    <ol>
+                        <li class="mb-2">
+                            <strong>Tải ngrok:</strong>
+                            <ul>
+                                <li>Vào: <a href="https://ngrok.com/download" target="_blank">https://ngrok.com/download</a></li>
+                                <li>Tải bản Windows và giải nén</li>
+                            </ul>
+                        </li>
+                        <li class="mb-2">
+                            <strong>Chạy ngrok:</strong>
+                            <ul>
+                                <li>Mở <strong>PowerShell</strong> hoặc <strong>Command Prompt</strong> (KHÔNG phải Package Manager Console)</li>
+                                <li><strong>QUAN TRỌNG:</strong> Đảm bảo project ASP.NET đang chạy (F5 trong Visual Studio)</li>
+                                <li>Chạy: <code>ngrok http 44332</code> (hoặc <code>ngrok http 59277</code> nếu dùng HTTP)</li>
+                                <li>Ngrok sẽ hiển thị URL như: <code>https://abc123.ngrok.io</code></li>
+                                <li><strong>Lưu ý:</strong> Nếu thấy lỗi "endpoint is offline", kiểm tra:
+                                    <ul>
+                                        <li>Project có đang chạy không? (F5 trong Visual Studio)</li>
+                                        <li>Port có đúng không? (44332 cho HTTPS hoặc 59277 cho HTTP)</li>
+                                        <li>Test trực tiếp: <code>https://localhost:44332</code> trong browser</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mb-2">
+                            <strong>Cấu hình Facebook:</strong>
+                            <ul>
+                                <li>Webhook URL: <code>https://abc123.ngrok.io/api/Webhook</code> (thay bằng URL từ ngrok)</li>
+                                <li>Verify Token: Token trong Web.config của bạn</li>
+                            </ul>
+                        </li>
+                        <li class="mb-2">
+                            <strong>Chạy project và test:</strong>
+                            <ul>
+                                <li>Chạy project ASP.NET (F5) - sẽ chạy tại <code>http://localhost:44332</code></li>
+                                <li>Giữ ngrok đang chạy</li>
+                                <li>Test bằng cách comment hoặc gửi message</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <div class="alert alert-warning mt-3">
+                        <strong>⚠️ Lưu ý:</strong>
+                        <ul class="mb-0">
+                            <li>URL ngrok thay đổi mỗi lần chạy (trừ khi dùng account trả phí)</li>
+                            <li>Phải giữ ngrok chạy trong khi test</li>
+                            <li>Verify Token phải khớp với token trong Web.config</li>
+                            <li>Đảm bảo ứng dụng Facebook đã được approved permissions</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 

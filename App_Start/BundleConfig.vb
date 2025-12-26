@@ -3,6 +3,8 @@
 Public Module BundleConfig
     ' For more information on bundling, visit https://go.microsoft.com/fwlink/?LinkId=301862
     Public Sub RegisterBundles(ByVal bundles As BundleCollection)
+        ' Tắt optimization trong debug mode để tránh lỗi
+        BundleTable.EnableOptimizations = False
 
         bundles.Add(New ScriptBundle("~/bundles/jquery").Include(
                     "~/Scripts/jquery-{version}.js"))
@@ -18,7 +20,7 @@ Public Module BundleConfig
         bundles.Add(New Bundle("~/bundles/bootstrap").Include(
                   "~/Scripts/bootstrap.js"))
 
-        bundles.Add(New StyleBundle("~/Content/css").Include(
+        bundles.Add(New StyleBundle("~/bundles/css").Include(
                   "~/Content/bootstrap.css",
                   "~/Content/site.css"))
     End Sub
